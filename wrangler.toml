@@ -1,0 +1,21 @@
+name = "cf-cloud-drive"
+pages_build_output_dir = ".vercel/output/static"
+compatibility_date = "2024-12-31"
+compatibility_flags = ["nodejs_compat"]
+
+# D1 Database Binding
+[[d1_databases]]
+binding = "DB"
+database_name = "cf-cloud-drive-db"
+database_id = "" # TODO: Replace with your D1 Database ID
+migrations_dir = "drizzle"
+
+# R2 Bucket Binding
+[[r2_buckets]]
+binding = "R2"
+bucket_name = "" # TODO: Replace with your R2 Bucket Name
+
+# KV Namespace Binding (Optional)
+[[kv_namespaces]]
+binding = "KV"
+id = "" # TODO: Replace with your KV Namespace ID
