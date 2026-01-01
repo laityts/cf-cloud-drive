@@ -50,3 +50,6 @@ wrangler.toml.blank
 
 # docs
 docs
+
+# open-next build output
+.open-next/
