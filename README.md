@@ -21,6 +21,7 @@
 - **样式**: [Tailwind CSS](https://tailwindcss.com/)
 - **国际化**: [next-intl](https://next-intl-docs.vercel.app/)
 
+
 ## 🚀 部署指南
 
 本指南将指导您将项目部署到 Cloudflare Workers。
