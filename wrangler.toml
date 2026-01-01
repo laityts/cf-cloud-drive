@@ -1,0 +1,25 @@
+name = "cf-cloud-drive"
+main = ".open-next/worker.js"
+compatibility_date = "2024-12-31"
+compatibility_flags = ["nodejs_compat"]
+
+[assets]
+directory = ".open-next/assets"
+binding = "ASSETS"
+
+# D1 Database Binding
+[[d1_databases]]
+binding = "DB"
+database_name = "cf-cloud-drive-db"
+# database_id = "YOUR_DATABASE_ID" # Run `wrangler d1 create cf-cloud-drive-db` to get the ID
+migrations_dir = "drizzle"
+
+# R2 Bucket Binding
+[[r2_buckets]]
+binding = "R2"
+bucket_name = "cf-cloud-drive-bucket" # Replace with your R2 bucket name
+
+# KV Namespace Binding (Optional for MVP, but good for sessions)
+[[kv_namespaces]]
+binding = "KV"
+# id = "YOUR_KV_NAMESPACE_ID" # Run `wrangler kv:namespace create cf-cloud-drive-kv` to get the ID
