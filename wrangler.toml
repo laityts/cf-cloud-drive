@@ -10,19 +10,19 @@ binding = "ASSETS"
 # D1 Database Binding
 [[d1_databases]]
 binding = "DB"
-database_name = "cf-cloud-drive-db"
-# database_id = "YOUR_DATABASE_ID" # Run `wrangler d1 create cf-cloud-drive-db` to get the ID
+database_name = "timgs"
+database_id = "02ba24d568fe42eda03fe309a479ebc6" # Placeholder for local dev. Replace with real ID for remote.
 migrations_dir = "drizzle"
 
 # R2 Bucket Binding
 [[r2_buckets]]
 binding = "R2"
-bucket_name = "cf-cloud-drive-bucket" # Replace with your R2 bucket name
+bucket_name = "timgs" # Replace with your R2 bucket name
 
 # KV Namespace Binding (Optional for MVP, but good for sessions)
 [[kv_namespaces]]
 binding = "KV"
-# id = "YOUR_KV_NAMESPACE_ID" # Run `wrangler kv:namespace create cf-cloud-drive-kv` to get the ID
+id = "02ba24d568fe42eda03fe309a479ebc6" # Run `wrangler kv:namespace create cf-cloud-drive-kv` to get the ID
 
 [observability]
 [observability.logs]

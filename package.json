@@ -10,14 +10,13 @@
     "start": "next start",
     "lint": "eslint",
     "db:generate": "drizzle-kit generate",
-    "db:migrate:local": "wrangler d1 migrations apply cf-cloud-drive-db --local",
-    "db:migrate:prod": "wrangler d1 migrations apply cf-cloud-drive-db --remote"
+    "db:migrate:local": "wrangler d1 migrations apply timgs --local",
+    "db:migrate:prod": "wrangler d1 migrations apply timgs --remote"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.958.0",
     "@aws-sdk/s3-request-presigner": "^3.958.0",
     "@opennextjs/cloudflare": "^1.14.7",
-    "@xmldom/xmldom": "^0.8.11",
     "drizzle-orm": "^0.45.1",
     "lucide-react": "^0.562.0",
     "next": "15.5.7",
