@@ -51,4 +51,5 @@ wrangler.toml.blank
 # docs
 docs
 
-.open-next*
+# open-next build output
+.open-next/

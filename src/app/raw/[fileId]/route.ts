@@ -3,36 +3,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getDb } from '@/db';
 import { files } from '@/db/schema';
 import { eq } from 'drizzle-orm';
-import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
-import { DOMParser, XMLSerializer } from '@xmldom/xmldom';
+import { AwsClient } from 'aws4fetch';
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ fileId: string }> }) {
-  // Polyfill DOMParser and Node for AWS SDK in Edge Runtime
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  if (!(globalThis as any).DOMParser) {
-    (globalThis as any).DOMParser = DOMParser;
-  }
-  if (!(globalThis as any).XMLSerializer) {
-    (globalThis as any).XMLSerializer = XMLSerializer;
-  }
-  if (!(globalThis as any).Node) {
-    (globalThis as any).Node = {
-      ELEMENT_NODE: 1,
-      ATTRIBUTE_NODE: 2,
-      TEXT_NODE: 3,
-      CDATA_SECTION_NODE: 4,
-      ENTITY_REFERENCE_NODE: 5,
-      ENTITY_NODE: 6,
-      PROCESSING_INSTRUCTION_NODE: 7,
-      COMMENT_NODE: 8,
-      DOCUMENT_NODE: 9,
-      DOCUMENT_TYPE_NODE: 10,
-      DOCUMENT_FRAGMENT_NODE: 11,
-      NOTATION_NODE: 12
-    };
-  }
-  /* eslint-enable @typescript-eslint/no-explicit-any */
-
   try {
     const { fileId } = await params;
 
@@ -64,32 +37,27 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ file
       return new NextResponse('Server configuration error: Missing R2 credentials', { status: 500 });
     }
 
-    const S3 = new S3Client({
+    const r2 = new AwsClient({
+      accessKeyId,
+      secretAccessKey,
+      service: 's3',
       region: 'auto',
-      endpoint: `https://${accountId}.r2.cloudflarestorage.com`,
-      credentials: {
-        accessKeyId,
-        secretAccessKey,
-      },
     });
 
     // Fetch from R2
-    const command = new GetObjectCommand({
-      Bucket: bucketName,
-      Key: fileRecord.r2Key,
-    });
-
+    const url = `https://${bucketName}.${accountId}.r2.cloudflarestorage.com/${fileRecord.r2Key}`;
+    
     try {
-      const response = await S3.send(command);
+      const response = await r2.fetch(url);
       
-      if (!response.Body) {
-        return new NextResponse('Empty file', { status: 404 });
+      if (!response.ok) {
+         if (response.status === 404) {
+             return new NextResponse('File not found in storage', { status: 404 });
+         }
+         throw new Error(`R2 fetch failed: ${response.status} ${response.statusText}`);
       }
 
-      // Convert the stream to a Web ReadableStream
-      const stream = response.Body.transformToWebStream();
-
-      return new NextResponse(stream, {
+      return new NextResponse(response.body, {
         headers: {
           'Content-Type': fileRecord.mimeType || 'application/octet-stream',
           'Cache-Control': 'public, max-age=31536000, immutable', // Cache for 1 year
