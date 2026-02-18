@@ -11,7 +11,7 @@ binding = "ASSETS"
 [[d1_databases]]
 binding = "DB"
 database_name = "cf-cloud-drive-db"
-database_id = "" # TODO: Replace with your D1 Database ID
+database_id = "055a5a97-5b3b-49d3-9356-e70c5e8c995c" # TODO: Replace with your D1 Database ID
 migrations_dir = "drizzle"
 
 # R2 Bucket Binding
@@ -21,8 +21,8 @@ bucket_name = "cf-cloud-drive-r2"
 
 # KV Namespace Binding (Optional for MVP, but good for sessions)
 [[kv_namespaces]]
-binding = "KV"
-id = "" # TODO: Replace with your KV Namespace ID
+binding = "cf-cloud-drive"
+id = "fb5465e3878945fe9d12c48b2e4fe553" # TODO: Replace with your KV Namespace ID
 
 [observability]
 [observability.logs]
